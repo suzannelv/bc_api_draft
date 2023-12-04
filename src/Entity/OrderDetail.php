@@ -51,6 +51,14 @@ class OrderDetail
     #[ORM\OneToMany(mappedBy: 'orderRelated', targetEntity: ProductDetail::class)]
     private Collection $productDetails;
 
+    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Staff $staff = null;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
@@ -196,6 +204,30 @@ class OrderDetail
                 $productDetail->setOrderRelated(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStaff(): ?Staff
+    {
+        return $this->staff;
+    }
+
+    public function setStaff(?Staff $staff): static
+    {
+        $this->staff = $staff;
 
         return $this;
     }
